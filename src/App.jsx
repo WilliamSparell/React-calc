@@ -12,14 +12,34 @@ const btnValues = [
   [0, ".", "="],
 ];
 
-const zero = 0;
+const numClickHandler = (e) => {
+  e.preventDefault();
+  const value = e.target.innerHTML;
+
+  if  (calc.num.length < 16){
+    setCalc({
+      ...calc,
+      num:
+      calc.num === 0 && value === "0"
+      ? "0"
+      : calc.num % 1 === 0
+      ? Number(calc.num + value)
+      : calc.num + value,
+      res: !calc.sign ? 0 : calc.res,
+    });
+  }
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+    let [calc, setCalc] = useState({
+      sign: "",
+      num: 0,
+      res: 0,
+    });
 
   return (
     <Wrapper>
-      <Screen value={zero} />
+      <Screen value={calc.num ? calc.num : calc.res} />
       <ButtonBox>
         {
           btnValues.flat().map((btn, i) => {
@@ -29,7 +49,19 @@ function App() {
                 className={btn === "=" ? "equals" : ""}
                 value={btn}
                 onClick={() => {
-                console.log(`${btn} clicked!`)
+                  btn === "C"
+                  ? resetClickHandler
+                  : btn === "+-"
+                  ? invertClickHandler
+                  : btn === "%"
+                  ? percentClickHandler
+                  : btn === "="
+                  ? equalsClickHandler
+                  : btn === "/" || btn === "X" || btn === "-" || btn === "+"
+                  ? signClickHandler
+                  : btn === "."
+                  ? commaClickHandler
+                  : numClickHandler
                 }}
       />
             );
