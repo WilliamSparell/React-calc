@@ -5,19 +5,21 @@ import ButtonBox from "./components/ButtonBox";
 import Button from "./components/Button";
 
 const btnValues = [
-  ["C", "+-", "%", "/"]
+  ["C", "+-", "%", "/"],
   [7, 8, 9, "X"],
   [4, 5, 6, "-"],
   [1, 2, 3, "+"],
   [0, ".", "="],
 ];
 
+const zero = 0;
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <Wrapper>
-      <Screen value="0" />
+      <Screen value={zero} />
       <ButtonBox>
         {
           btnValues.flat().map((btn, i) => {
@@ -25,8 +27,8 @@ function App() {
               <Button 
                 key={i}
                 className={btn === "=" ? "equals" : ""}
-                value="btn"
-                onclick={() => {
+                value={btn}
+                onClick={() => {
                 console.log(`${btn} clicked!`)
                 }}
       />
